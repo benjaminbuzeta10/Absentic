@@ -1,0 +1,105 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <div class="encabezado">
+      <p>Semestre 2026-1</p>
+      <h1>Resumen General</h1>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  @if (cargando()) {
+    <div class="cargando">
+      <ion-spinner name="crescent"></ion-spinner>
+    </div>
+  } @else {
+    <!-- Promedio de asistencia -->
+    <ion-card>
+      <p class="titulo-tarjeta">Promedio de asistencia</p>
+      <div class="promedio">
+        <div class="anillo">
+          <svg width="88" height="88" viewBox="0 0 88 88">
+            <circle cx="44" cy="44" [attr.r]="radio" class="anillo-fondo" />
+            <circle
+              cx="44" cy="44" [attr.r]="radio"
+              class="anillo-valor" [class.riesgo]="promedio() < 75"
+              [attr.stroke-dasharray]="trazo()"
+              transform="rotate(-90 44 44)"
+            />
+          </svg>
+          <span [class.riesgo]="promedio() < 75">{{ promedio() }}%</span>
+        </div>
+
+        <div class="contadores">
+          <div class="chips">
+            <div class="contador al-dia">
+              <strong>{{ alDia() }}</strong>
+              <span>Al día</span>
+            </div>
+            <div class="contador en-riesgo">
+              <strong>{{ enRiesgo() }}</strong>
+              <span>En riesgo</span>
+            </div>
+          </div>
+          <p class="detalle">{{ resumen().length }} ramos · {{ totalBloques() }} bloques horarios</p>
+        </div>
+      </div>
+    </ion-card>
+
+    <!-- Comparativa de ramos -->
+    <ion-card>
+      <p class="titulo-tarjeta">Comparativa de ramos</p>
+      @for (r of resumen(); track r.ramo.id) {
+        <div class="comparativa">
+          <div class="fila">
+            <span class="nombre">
+              {{ r.ramo.nombre }}
+              <small>{{ r.ramo.bloques.length }} bloque{{ r.ramo.bloques.length === 1 ? '' : 's' }}</small>
+            </span>
+            <span class="porcentaje" [class.riesgo]="!r.alDia">{{ r.porcentaje }}%</span>
+          </div>
+          <div class="barra">
+            <ion-progress-bar [value]="r.porcentaje / 100" [class.riesgo]="!r.alDia"></ion-progress-bar>
+            <div class="minimo" [style.left.%]="r.ramo.asistenciaMinima"></div>
+          </div>
+        </div>
+      } @empty {
+        <p class="vacio">Aún no tienes ramos registrados.</p>
+      }
+      <div class="leyenda">
+        <div class="minimo"></div>
+        <span>Línea = mínimo exigido por ramo</span>
+      </div>
+    </ion-card>
+
+    <!-- Estado por ramo -->
+    <ion-card>
+      <p class="titulo-tarjeta">Estado por ramo</p>
+      <ion-list lines="full">
+        @for (r of resumen(); track r.ramo.id; let ultimo = $last) {
+          <ion-item [lines]="ultimo ? 'none' : 'full'">
+            <ion-icon
+              slot="start"
+              [name]="r.alDia ? 'checkmark' : 'warning'"
+              [class.riesgo]="!r.alDia"
+            ></ion-icon>
+            <ion-label>
+              <h2>{{ r.ramo.nombre }}</h2>
+              <p>
+                Mín. {{ r.ramo.asistenciaMinima }}% ·
+                {{ r.ramo.bloques.length }} bloque{{ r.ramo.bloques.length === 1 ? '' : 's' }} ·
+                {{ r.ramo.sesiones.length }} clases
+              </p>
+            </ion-label>
+            <ion-note slot="end" [class.riesgo]="!r.alDia">
+              <strong>{{ r.porcentaje }}%</strong>
+              <span>{{ r.alDia ? 'Aprobado' : 'En riesgo' }}</span>
+            </ion-note>
+          </ion-item>
+        } @empty {
+          <p class="vacio">Aún no tienes ramos registrados.</p>
+        }
+      </ion-list>
+    </ion-card>
+  }
+</ion-content>
