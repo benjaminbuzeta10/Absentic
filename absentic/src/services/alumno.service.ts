@@ -27,7 +27,7 @@ export class UsuarioService {
       .map((alumno) => alumno.nombre?.trim())
       .filter((nombre): nombre is string => Boolean(nombre));
 
-    console.log('2Nombres de los alumnos:', nombres);
+    console.log('Nombres de los alumnos:', nombres);
     return nombres;
   }
 }

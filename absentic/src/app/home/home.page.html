@@ -1,20 +1,45 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+    <ion-title>Ramos</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
+      <ion-title size="large">Ramos</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+  <ion-list>
+    @for (ramo of ramos; track ramo.ramo) {
+      @let asistenciaActual = calcularAsistenciaActual(ramo.asistencias);
+      <ion-item class="ramo-item" lines="none">
+        <ion-label>
+          <h2 class="ramo-titulo">{{ ramo.ramo }}</h2>
+          <div class="dias-bloques">
+            @for (resumen of contarBloquesPorDia(ramo.horarios); track resumen.dia) {
+              <span class="dia-bloque">{{ resumen.dia }} ×{{ resumen.cantidad }}</span>
+            }
+          </div>
+          <div class="asistencia-resumen">
+            <div class="asistencia-actual">
+              <span>Asistencia actual</span>
+              <strong [class.cumple-minimo]="asistenciaActual >= ramo.asistenciaMinima"
+                [class.bajo-minimo]="asistenciaActual < ramo.asistenciaMinima">
+                {{ asistenciaActual }}%
+              </strong>
+            </div>
+            <span class="asistencia-minima">Mínimo: {{ ramo.asistenciaMinima }}%</span>
+          </div>
+        </ion-label>
+      </ion-item>
+    }
+  </ion-list>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button routerLink="/agregar" aria-label="Agregar ramo">
+      <ion-icon name="add-outline" aria-hidden="true"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
