@@ -1,0 +1,128 @@
+ion-content {
+	--background: #fff;
+	--color: #202622;
+}
+
+.formulario-agregar {
+	width: min(100%, 760px);
+	margin: 0 auto;
+	padding: 18px 16px 32px;
+}
+
+.seccion-formulario {
+	margin-bottom: 14px;
+	padding: 16px;
+	border: 1px solid #d8dfdb;
+	border-radius: 10px;
+	background: #fff;
+}
+
+.seccion-formulario h2 {
+	margin: 0 0 16px;
+	color: #202622;
+	font-size: 17px;
+	font-weight: 600;
+}
+
+.asistencia-input {
+	margin-top: 16px;
+}
+
+.fechas-semestre {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 14px;
+}
+
+.selector-fecha {
+	display: grid;
+	align-content: start;
+	gap: 8px;
+}
+
+.selector-fecha > span {
+	color: #58615c;
+	font-size: 14px;
+}
+
+.selector-fecha ion-datetime-button::part(native) {
+	min-height: 44px;
+	border: 1px solid #c9d2cd;
+	border-radius: 6px;
+	background: #fff;
+}
+
+.encabezado-seccion {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+}
+
+.encabezado-seccion h2 {
+	margin-bottom: 8px;
+}
+
+.bloque-horario {
+	display: grid;
+	gap: 12px;
+	padding: 14px 0;
+	border-bottom: 1px solid #e7ebe9;
+}
+
+.encabezado-bloque h3 {
+	margin: 0;
+	color: #202622;
+	font-size: 14px;
+	font-weight: 600;
+}
+
+.dias-botones {
+	display: grid;
+	grid-template-columns: repeat(7, minmax(0, 1fr));
+	gap: 6px;
+}
+
+.boton-dia {
+	min-width: 0;
+	margin: 0;
+	font-size: 12px;
+	white-space: nowrap;
+}
+
+.horas-bloque {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 10px;
+}
+
+.bloque-horario:last-child {
+	padding-bottom: 0;
+	border-bottom: 0;
+}
+
+.acciones-formulario {
+	display: flex;
+	justify-content: flex-end;
+	gap: 8px;
+	padding-top: 4px;
+}
+
+@media (max-width: 560px) {
+	.fechas-semestre {
+		grid-template-columns: 1fr;
+	}
+
+	.bloque-horario {
+		gap: 12px;
+	}
+
+	.dias-botones {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.boton-dia {
+		width: 100%;
+		font-size: 13px;
+	}
+}

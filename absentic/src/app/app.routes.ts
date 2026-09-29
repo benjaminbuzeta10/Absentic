@@ -10,4 +10,8 @@ export const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full',
   },
+  {
+    path: 'agregar',
+    loadComponent: () => import('./home/agregar/agregar.page').then( m => m.AgregarPage)
+  },
 ];
