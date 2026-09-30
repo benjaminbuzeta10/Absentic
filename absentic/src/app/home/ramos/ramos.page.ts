@@ -12,7 +12,6 @@ import { Ramo, RamoService } from '../../../services/ramo.service';
 import { Bloque, BloqueService } from '../../../services/bloque.service';
 import { Asistencia, AsistenciaService } from '../../../services/asistencia.service';
 
-// Componente hijo para editar el ramo
 import { EditarPage } from './editar/editar.page';
 
 
@@ -67,6 +66,7 @@ interface Resumen {
   styleUrls: ['./ramos.page.scss'],
   // 'ion-page' hace que este componente ocupe toda la pantalla encima del home
   host: { class: 'ion-page' },
+  
   imports: [
     EditarPage,
     IonHeader, IonToolbar, IonButtons, IonButton, IonTitle, IonContent,

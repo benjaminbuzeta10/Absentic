@@ -1,0 +1,145 @@
+<!-- Encabezado azul con boton para volver -->
+<ion-header class="ion-no-border">
+  <ion-toolbar class="encabezado">
+    <ion-buttons slot="start">
+      <!-- Al tocar la flecha avisamos al padre (ramos) con el output "volver" -->
+      <ion-button class="boton-volver" (click)="volver.emit()">
+        <ion-icon name="arrow-back" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Editar Ramo</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <!-- Mientras se cargan los datos del ramo mostramos un aviso -->
+  @if (cargando()) {
+    <p class="mensaje">Cargando ramo...</p>
+  } @else {
+
+  <!-- ===== Tarjeta 1: informacion del ramo ===== -->
+  <div class="tarjeta">
+    <p class="titulo-seccion">INFORMACION</p>
+
+    <p class="etiqueta">Nombre del ramo *</p>
+    <ion-input fill="outline" placeholder="Ej: Matematicas" aria-label="Nombre del ramo"
+      [(ngModel)]="nombre"></ion-input>
+
+    <p class="etiqueta">Asistencia minima (%) *</p>
+    <ion-input fill="outline" type="number" min="0" max="100" aria-label="Asistencia minima"
+      [(ngModel)]="asistenciaMinima">
+      <span slot="end" class="sufijo">%</span>
+    </ion-input>
+  </div>
+
+  <!-- ===== Tarjeta 2: fechas del semestre ===== -->
+  <div class="tarjeta">
+    <p class="titulo-seccion">PERIODO DEL SEMESTRE</p>
+
+    <div class="dos-columnas">
+      <div>
+        <p class="etiqueta">Inicio *</p>
+        <!-- Input nativo del navegador: abre el calendario al hacer clic -->
+        <input class="campo-nativo" type="date" aria-label="Fecha de inicio"
+          [(ngModel)]="fechaInicio" />
+      </div>
+      <div>
+        <p class="etiqueta">Termino *</p>
+        <input class="campo-nativo" type="date" aria-label="Fecha de termino"
+          [(ngModel)]="fechaTermino" />
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Tarjeta 3: bloques de horario ===== -->
+  <div class="tarjeta">
+    <div class="fila">
+      <p class="titulo-seccion">BLOQUES DE HORARIO</p>
+      <ion-button class="boton-agregar-bloque" size="small" (click)="agregarBloque()">
+        <ion-icon name="add" slot="start"></ion-icon>
+        Agregar
+      </ion-button>
+    </div>
+
+    <!-- Un recuadro por cada bloque -->
+    @for (bloque of bloques; track $index) {
+      <div class="bloque">
+        <div class="fila">
+          <span class="insignia">Bloque {{ $index + 1 }}</span>
+          <!-- Boton para quitar el bloque (solo si hay mas de uno) -->
+          @if (bloques.length > 1) {
+            <ion-button fill="clear" color="medium" size="small" (click)="quitarBloque($index)">
+              <ion-icon name="trash-outline"></ion-icon>
+            </ion-button>
+          }
+        </div>
+
+        <!-- Botones de dia: el elegido se pinta azul -->
+        <p class="etiqueta">Dia</p>
+        <div class="dias">
+          @for (dia of dias; track dia.nombre) {
+            <ion-button size="small" class="boton-dia"
+              [class.dia-activo]="bloque.dia === dia.nombre"
+              (click)="bloque.dia = dia.nombre">
+              {{ dia.corto }}
+            </ion-button>
+          }
+        </div>
+
+        <!-- Hora de inicio y termino -->
+        <div class="dos-columnas con-flecha">
+          <div>
+            <p class="etiqueta">Inicio</p>
+            <!-- Input nativo del navegador para elegir la hora -->
+            <input class="campo-nativo" type="time" aria-label="Hora de inicio"
+              [(ngModel)]="bloque.inicio" />
+          </div>
+          <ion-icon name="arrow-forward" class="flecha"></ion-icon>
+          <div>
+            <p class="etiqueta">Termino</p>
+            <input class="campo-nativo" type="time" aria-label="Hora de termino"
+              [(ngModel)]="bloque.termino" />
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- Resumen de clases del semestre -->
+    <div class="fila total">
+      <div>
+        <p class="total-titulo">Clases totales estimadas</p>
+        <p class="total-subtitulo">Suma de todos los bloques</p>
+      </div>
+      <span class="total-numero">{{ clasesTotales() || '—' }}</span>
+    </div>
+  </div>
+
+  <!-- Mensaje de error, si hubo alguno al guardar -->
+  @if (error()) {
+    <p class="error">{{ error() }}</p>
+  }
+
+  <!-- Botones finales -->
+  <div class="acciones">
+    <ion-button class="boton-cancelar" fill="outline" (click)="volver.emit()">Cancelar</ion-button>
+    <ion-button class="boton-guardar" [disabled]="!formularioValido() || guardando()" (click)="guardar()">
+      {{ guardando() ? 'Guardando...' : 'Guardar cambios' }}
+    </ion-button>
+  </div>
+  }
+</ion-content>
+
+<!-- Barra de navegacion inferior (por ahora solo visual) -->
+<ion-footer>
+  <ion-tab-bar selectedTab="inicio">
+    <ion-tab-button tab="inicio">
+      <ion-icon name="home"></ion-icon>
+      <ion-label>Inicio</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="informes">
+      <ion-icon name="bar-chart-outline"></ion-icon>
+      <ion-label>Informes</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-footer>
