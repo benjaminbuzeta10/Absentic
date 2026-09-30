@@ -9,15 +9,13 @@ import {
 import { addIcons } from 'ionicons';
 import { checkmark, warning, home, barChartOutline } from 'ionicons/icons';
 
-// Servicios que leen los datos reales de Supabase
+
 import { Ramo, RamoService } from '../../../services/ramo.service';
 import { Bloque, BloqueService } from '../../../services/bloque.service';
 import { Asistencia, AsistenciaService } from '../../../services/asistencia.service';
 
-// Porcentaje minimo de asistencia para aprobar un ramo (igual que en el home)
-const ASISTENCIA_MINIMA = 75;
 
-// Por ahora mostramos un solo alumno (igual que en el home)
+const ASISTENCIA_MINIMA = 75;
 const ID_USUARIO = 2;
 
 // Radio del anillo del promedio; con el se calcula la circunferencia
@@ -101,9 +99,12 @@ export class InformesPage implements ViewWillEnter {
       // Elegimos los ramos que se muestran y armamos el resumen de cada uno
       const lista: ResumenRamo[] = [];
       for (const ramo of todosLosRamos) {
-        if (this.debeMostrarse(ramo, asistenciasAlumno, todaLaAsistencia)) {
+        // if (this.debeMostrarse(ramo, asistenciasAlumno, todaLaAsistencia)) {
+        //   lista.push(this.crearResumen(ramo, bloques, asistenciasAlumno));
+        // }
+        
           lista.push(this.crearResumen(ramo, bloques, asistenciasAlumno));
-        }
+        
       }
 
       // Guardamos la lista y calculamos los totales de la tarjeta de arriba
