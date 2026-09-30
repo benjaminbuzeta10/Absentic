@@ -1,20 +1,83 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<!-- Si hay un ramo seleccionado, mostramos el detalle (componente hijo).
+     [idRamo] es el INPUT: le pasamos el id del ramo.
+     (volver) es el OUTPUT: el hijo avisa cuando quiere cerrar. -->
+@if (ramoSeleccionado(); as id) {
+  <app-ramos [idRamo]="id" (volver)="cerrarRamo()"></app-ramos>
+} @else {
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
+  <!-- Si no hay ramo seleccionado, mostramos la lista normal -->
+  <!-- Encabezado azul con el semestre y el titulo -->
+  <ion-header class="ion-no-border">
+    <ion-toolbar class="encabezado">
+      <p class="semestre">Semestre 2026-1</p>
+      <h1 class="titulo">Mis Ramos</h1>
     </ion-toolbar>
   </ion-header>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
-</ion-content>
+  <ion-content>
+    <!-- Mensaje de carga, error o lista vacia -->
+    @if (mensaje()) {
+      <p class="mensaje">{{ mensaje() }}</p>
+    }
+
+    <!-- Una tarjeta por cada ramo -->
+    @for (tarjeta of tarjetas(); track tarjeta.id) {
+      <!-- Al tocar la tarjeta se abre el detalle del ramo -->
+      <ion-card class="tarjeta" (click)="abrirRamo(tarjeta.id)">
+        <ion-card-content>
+
+          <!-- Fila superior: nombre del ramo y porcentaje -->
+          <div class="fila">
+            <h2 class="nombre">{{ tarjeta.nombre }}</h2>
+            <span class="porcentaje" [class.en-riesgo]="!tarjeta.alDia">
+              {{ tarjeta.porcentaje }}%
+              <ion-icon name="chevron-forward" class="flecha"></ion-icon>
+            </span>
+          </div>
+
+          <!-- Chips con los dias de clase y cuantos bloques hay ese dia -->
+          @for (chip of tarjeta.chips; track chip.dia) {
+            <ion-chip class="chip-dia">{{ chip.dia }} ×{{ chip.cantidad }}</ion-chip>
+          }
+
+          <!-- Barra de progreso: verde si esta al dia, roja si esta en riesgo -->
+          <ion-progress-bar
+            class="barra"
+            [value]="tarjeta.porcentaje / 100"
+            [color]="tarjeta.alDia ? 'success' : 'danger'">
+          </ion-progress-bar>
+
+          <!-- Fila inferior: faltas restantes y estado -->
+          <div class="fila">
+            <span class="faltas">Faltas restantes: <strong>{{ tarjeta.faltasRestantes }}</strong></span>
+            <ion-badge [class]="tarjeta.alDia ? 'estado al-dia' : 'estado riesgo'">
+              {{ tarjeta.alDia ? 'Al dia' : 'En riesgo' }}
+            </ion-badge>
+          </div>
+
+        </ion-card-content>
+      </ion-card>
+    }
+
+    <!-- Boton redondo para agregar un ramo nuevo -->
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button class="boton-agregar" routerLink="/agregar">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </ion-content>
+
+  <!-- Barra de navegacion inferior -->
+  <ion-footer>
+    <ion-tab-bar selectedTab="inicio">
+      <ion-tab-button tab="inicio">
+        <ion-icon name="home"></ion-icon>
+        <ion-label>Inicio</ion-label>
+      </ion-tab-button>
+      <ion-tab-button tab="informes">
+        <ion-icon name="bar-chart-outline"></ion-icon>
+        <ion-label>Informes</ion-label>
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-footer>
+}

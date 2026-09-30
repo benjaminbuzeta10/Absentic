@@ -1,0 +1,177 @@
+<!-- Si se esta editando, mostramos el hijo "editar".
+     [idRamo] es el INPUT: le pasamos el id de este ramo.
+     (volver) es el OUTPUT: el hijo avisa cuando termina. -->
+@if (editando()) {
+  <app-editar [idRamo]="idRamo()" (volver)="cerrarEditar()"></app-editar>
+} @else {
+
+  <!-- Si no se esta editando, mostramos el detalle normal -->
+  <!-- Encabezado azul: volver, nombre del ramo y lapiz para editar -->
+  <ion-header class="ion-no-border">
+    <ion-toolbar class="encabezado">
+      <ion-buttons slot="start">
+        <!-- Al tocar la flecha avisamos al padre con el output "volver" -->
+        <ion-button class="boton-cuadrado" (click)="volver.emit()">
+          <ion-icon name="arrow-back" slot="icon-only"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-title>{{ nombreRamo() }}</ion-title>
+      <ion-buttons slot="end">
+        <!-- El lapiz abre la pagina de editar -->
+        <ion-button class="boton-cuadrado" (click)="abrirEditar()">
+          <ion-icon name="pencil" slot="icon-only"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  <!-- ################################################################################################### -->
+  <!-- ################################################################################################### -->
+  <ion-content>
+    <!-- Mensaje de carga o error -->
+    @if (mensaje()) {
+      <p class="mensaje">{{ mensaje() }}</p>
+    }
+
+    <!-- ===== Tarjeta de resumen ===== -->
+    @if (resumen(); as r) {
+      <div class="tarjeta">
+
+        <div class="resumen-arriba">
+          <!-- Circulo con el porcentaje (se dibuja con un degradado conico) -->
+          <div class="anillo"
+            [style.background]="'conic-gradient(' + (r.alDia ? '#43a047' : '#e53935') + ' ' + r.porcentaje + '%, #e5e7eb 0)'">
+            <div class="anillo-centro" [class.rojo]="!r.alDia">{{ r.porcentaje }}%</div>
+          </div>
+        
+          <!-- Minimo, bloques, barra y faltas restantes -->
+          <div class="resumen-datos">
+            <div class="fila">
+              <span class="dato-titulo">MINIMO</span>
+              <span class="dato-titulo">BLOQUES</span>
+            </div>
+            <div class="fila">
+              <span class="dato-valor">{{ minimo }}%</span>
+              <span class="dato-valor">{{ r.cantidadBloques }}</span>
+            </div>
+            <ion-progress-bar class="barra" [value]="r.porcentaje / 100"
+              [color]="r.alDia ? 'success' : 'danger'"></ion-progress-bar>
+            <span class="texto-gris">Faltas restantes: <strong>{{ r.faltasRestantes }}</strong></span>
+          </div>
+        </div>
+
+        <!-- -------------------------------------------------------->
+
+
+        <!-- Tres cajitas: asistidas, faltas y nulas -->
+        <div class="contadores">
+          <div class="contador verde">
+            <strong>{{ r.presentes }}</strong>
+            <span>Asistido</span>
+          </div>
+          <div class="contador rojo">
+            <strong>{{ r.faltas }}</strong>
+            <span>Falta</span>
+          </div>
+          <div class="contador naranjo">
+            <strong>{{ r.nulos }}</strong>
+            <span>Nulo</span>
+          </div>
+        </div>
+
+      </div>
+    }
+  <!--------------------------------------------------------------->
+    <!-- ===== Una tarjeta por cada bloque ===== -->
+    @for (b of bloquesVista(); track b.bloque.id_bloque) {
+      <div class="tarjeta tarjeta-bloque">
+        <div class="bloque-arriba">
+          <!-- Cuadro azul con el dia y las horas -->
+          <div class="cuadro-dia">
+            <span class="cuadro-dia-nombre">{{ b.diaCorto }}</span>
+            <strong>{{ b.inicio }}</strong>
+            <span class="cuadro-dia-fin">{{ b.termino }}</span>
+          </div>
+
+          <!-- Titulo, porcentaje, barra y boton para ver las clases -->
+          <div class="bloque-datos">
+
+            <!-- titulo -->
+            <div class="fila">
+              <span class="bloque-titulo">{{ b.titulo }}</span>
+              <span class="bloque-porcentaje" [class.rojo]="b.porcentaje < minimo">{{ b.porcentaje }}%</span>
+            </div>
+
+            <!-- barra -->
+            <ion-progress-bar class="barra" [value]="b.porcentaje / 100"
+              [color]="b.porcentaje >= minimo ? 'success' : 'danger'"></ion-progress-bar>
+
+            <!-- fila de abajo con clases y boton -->
+            <div class="fila">
+              <span class="texto-gris">{{ b.presentes }}/{{ b.contadas }} clases</span>
+
+              <ion-button fill="clear" size="small" color="medium" class="boton-ver"
+                (click)="alternarClases(b.bloque.id_bloque!)">
+                {{ estaAbierto(b.bloque.id_bloque!) ? 'Cerrar' : 'Ver clases' }}
+                <ion-icon slot="end" [name]="estaAbierto(b.bloque.id_bloque!) ? 'chevron-up' : 'chevron-down'"></ion-icon>
+              </ion-button>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Registro de clases (solo si esta abierto) ----------------------------- -->
+        @if (estaAbierto(b.bloque.id_bloque!)) {
+          @for (clase of b.clases; track clase.fecha) {
+          
+            <div class="clase fila">
+              <div>
+                <p class="clase-fecha">{{ clase.texto }}</p>
+                <p class="texto-gris clase-numero">Clase {{ clase.numero }}</p>
+              </div>
+
+              <!-- Tres botones para elegir el estado de la clase.
+                   El que esta elegido se pinta de su color.
+                   Al tocar uno, se guarda en Supabase con cambiarEstado(). -->
+              <div class="estados">
+                <ion-button size="small" class="boton-estado"
+                  [class.presente]="clase.estado === 'presente'"
+                  (click)="cambiarEstado(b.bloque, clase, 'presente')">
+                  Asistido
+                </ion-button>
+                <ion-button size="small" class="boton-estado"
+                  [class.ausente]="clase.estado === 'ausente'"
+                  (click)="cambiarEstado(b.bloque, clase, 'ausente')">
+                  Falta
+                </ion-button>
+                <ion-button size="small" class="boton-estado"
+                  [class.nulo]="clase.estado === 'nulo'"
+                  (click)="cambiarEstado(b.bloque, clase, 'nulo')">
+                  Nulo
+                </ion-button>
+              </div>
+            </div>
+          } @empty {
+            <p class="texto-gris clase">Todavia no hay clases para este bloque.</p>
+          }
+        }
+      </div>
+    }
+  </ion-content>
+
+
+  <!-- ################################################################################################### -->
+  <!-- ################################################################################################### -->
+  <!-- Barra de navegacion inferior -->
+  <ion-footer>
+    <ion-tab-bar>
+      <ion-tab-button tab="inicio" (click)="volver.emit()">
+        <ion-icon name="home"></ion-icon>
+        <ion-label>Inicio</ion-label>
+      </ion-tab-button>
+      <ion-tab-button tab="informes">
+        <ion-icon name="bar-chart-outline"></ion-icon>
+        <ion-label>Informes</ion-label>
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-footer>
+}

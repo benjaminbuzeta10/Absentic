@@ -1,27 +1,130 @@
-#container {
-  text-align: center;
+// Color azul oscuro principal de la app
+$azul: #1f3a5f;
 
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+// ---------- Encabezado ----------
+.encabezado {
+  --background: #{$azul};
+  --color: #ffffff;
+  padding: 8px 16px 16px;
 }
 
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
+.semestre {
+  margin: 8px 0 4px;
+  font-size: 13px;
+  opacity: 0.7;
 }
 
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-
-  color: #8c8c8c;
-
+.titulo {
   margin: 0;
+  font-size: 22px;
+  font-weight: 700;
 }
 
-#container a {
-  text-decoration: none;
+// ---------- Fondo de la pagina ----------
+ion-content {
+  --background: #f3f5f8;
+}
+
+.mensaje {
+  text-align: center;
+  color: #6b7280;
+}
+
+// ---------- Tarjetas ----------
+.tarjeta {
+  cursor: pointer;
+  --background: #ffffff;
+  margin: 12px 14px;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+// Fila con un elemento a la izquierda y otro a la derecha
+.fila {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nombre {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.porcentaje {
+  display: flex;
+  align-items: center;
+  font-size: 22px;
+  font-weight: 800;
+  color: #43a047; // verde
+}
+
+// Si esta en riesgo, el porcentaje se pinta rojo
+.porcentaje.en-riesgo {
+  color: #e53935;
+}
+
+.flecha {
+  font-size: 14px;
+  margin-left: 6px;
+  color: #9ca3af;
+}
+
+// Chips pequeños con el dia de clase
+.chip-dia {
+  --background: #e8eef7;
+  --color: #{$azul};
+  height: 22px;
+  margin: 6px 6px 0 0;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+// Barra de progreso mas gruesa y redondeada
+.barra {
+  height: 7px;
+  border-radius: 4px;
+  margin: 10px 0;
+  --background: #e5e7eb;
+}
+
+.faltas {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.faltas strong {
+  color: #1f2937;
+}
+
+// Etiqueta de estado ("Al dia" o "En riesgo")
+.estado {
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.al-dia {
+  --background: #e6f4ea;
+  --color: #2e7d32;
+}
+
+.riesgo {
+  --background: #fdecea;
+  --color: #c62828;
+}
+
+// ---------- Boton flotante ----------
+.boton-agregar {
+  --background: #{$azul};
+}
+
+// ---------- Barra inferior ----------
+ion-tab-bar {
+  --background: #ffffff;
+  --color: #9ca3af;
+  --color-selected: #{$azul};
 }
