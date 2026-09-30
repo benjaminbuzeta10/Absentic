@@ -1,3 +1,4 @@
+<!-- Encabezado azul con el semestre y el titulo -->
 <ion-header class="ion-no-border">
   <ion-toolbar>
     <div class="encabezado">
@@ -9,109 +10,128 @@
 
 <ion-content>
   @if (cargando()) {
+    <!-- Spinner mientras se traen los datos de Supabase -->
     <div class="cargando">
       <ion-spinner name="crescent"></ion-spinner>
     </div>
+  } @else if (error()) {
+    <!-- Mensaje simple si fallo la carga -->
+    <ion-card>
+      <p class="vacio error">{{ error() }}</p>
+    </ion-card>
   } @else {
-    <!-- Promedio de asistencia -->
+    <!-- Tarjeta 1: Promedio de asistencia -->
     <ion-card>
       <p class="titulo-tarjeta">Promedio de asistencia</p>
       <div class="promedio">
+        <!-- Anillo: un circulo gris de fondo y otro encima pintado segun el promedio -->
         <div class="anillo">
           <svg width="88" height="88" viewBox="0 0 88 88">
             <circle cx="44" cy="44" [attr.r]="radio" class="anillo-fondo" />
             <circle
               cx="44" cy="44" [attr.r]="radio"
-              class="anillo-valor" [class.riesgo]="promedio() < 75"
+              class="anillo-valor" [class.riesgo]="promedio() < minimo"
               [attr.stroke-dasharray]="trazo()"
               transform="rotate(-90 44 44)"
             />
           </svg>
-          <span [class.riesgo]="promedio() < 75">{{ promedio() }}%</span>
+          <!-- Numero del promedio en el centro del anillo -->
+          <span [class.riesgo]="promedio() < minimo">{{ promedio() }}%</span>
         </div>
 
+        <!-- Contadores de ramos al dia y en riesgo -->
         <div class="contadores">
           <div class="chips">
             <div class="contador al-dia">
               <strong>{{ alDia() }}</strong>
-              <span>Al día</span>
+              <span>Al dia</span>
             </div>
             <div class="contador en-riesgo">
               <strong>{{ enRiesgo() }}</strong>
               <span>En riesgo</span>
             </div>
           </div>
+          <!-- Total de ramos y de bloques horarios -->
           <p class="detalle">{{ resumen().length }} ramos · {{ totalBloques() }} bloques horarios</p>
         </div>
       </div>
     </ion-card>
 
-    <!-- Comparativa de ramos -->
+    <!-- Tarjeta 2: Comparativa de ramos (una barra por ramo) -->
     <ion-card>
       <p class="titulo-tarjeta">Comparativa de ramos</p>
-      @for (r of resumen(); track r.ramo.id) {
+      @for (r of resumen(); track r.id) {
         <div class="comparativa">
+          <!-- Nombre del ramo, cantidad de bloques y porcentaje -->
           <div class="fila">
             <span class="nombre">
-              {{ r.ramo.nombre }}
-              <small>{{ r.ramo.bloques.length }} bloque{{ r.ramo.bloques.length === 1 ? '' : 's' }}</small>
+              {{ r.nombre }}
+              <small>{{ r.cantidadBloques }} bloque{{ r.cantidadBloques === 1 ? '' : 's' }}</small>
             </span>
             <span class="porcentaje" [class.riesgo]="!r.alDia">{{ r.porcentaje }}%</span>
           </div>
+          <!-- Barra de progreso con una marca en la posicion del minimo -->
           <div class="barra">
             <ion-progress-bar [value]="r.porcentaje / 100" [class.riesgo]="!r.alDia"></ion-progress-bar>
-            <div class="minimo" [style.left.%]="r.ramo.asistenciaMinima"></div>
+            <div class="minimo" [style.left.%]="minimo"></div>
           </div>
         </div>
       } @empty {
-        <p class="vacio">Aún no tienes ramos registrados.</p>
+        <p class="vacio">Aun no tienes ramos registrados.</p>
       }
+      <!-- Explicacion de la marca del minimo -->
       <div class="leyenda">
         <div class="minimo"></div>
-        <span>Línea = mínimo exigido por ramo</span>
+        <span>Linea = minimo exigido por ramo</span>
       </div>
     </ion-card>
 
-    <!-- Estado por ramo -->
+    <!-- Tarjeta 3: Estado por ramo (lista) -->
     <ion-card>
       <p class="titulo-tarjeta">Estado por ramo</p>
       <ion-list lines="full">
-        @for (r of resumen(); track r.ramo.id; let ultimo = $last) {
+        @for (r of resumen(); track r.id; let ultimo = $last) {
+          <!-- El ultimo item no lleva linea divisoria -->
           <ion-item [lines]="ultimo ? 'none' : 'full'">
+            <!-- Check verde si esta al dia, advertencia roja si esta en riesgo -->
             <ion-icon
               slot="start"
               [name]="r.alDia ? 'checkmark' : 'warning'"
               [class.riesgo]="!r.alDia"
             ></ion-icon>
+            <!-- Nombre y detalle del ramo -->
             <ion-label>
-              <h2>{{ r.ramo.nombre }}</h2>
+              <h2>{{ r.nombre }}</h2>
               <p>
-                Mín. {{ r.ramo.asistenciaMinima }}% ·
-                {{ r.ramo.bloques.length }} bloque{{ r.ramo.bloques.length === 1 ? '' : 's' }} ·
-                {{ r.ramo.sesiones.length }} clases
+                Min. {{ minimo }}% ·
+                {{ r.cantidadBloques }} bloque{{ r.cantidadBloques === 1 ? '' : 's' }} ·
+                {{ r.clases }} clases
               </p>
             </ion-label>
+            <!-- Porcentaje y estado a la derecha -->
             <ion-note slot="end" [class.riesgo]="!r.alDia">
               <strong>{{ r.porcentaje }}%</strong>
               <span>{{ r.alDia ? 'Aprobado' : 'En riesgo' }}</span>
             </ion-note>
           </ion-item>
         } @empty {
-          <p class="vacio">Aún no tienes ramos registrados.</p>
+          <p class="vacio">Aun no tienes ramos registrados.</p>
         }
       </ion-list>
     </ion-card>
   }
 </ion-content>
-  <ion-footer>
-    <ion-tab-bar selectedTab="informes">
-      <ion-tab-button tab="inicio" routerLink="/home">
-        <ion-icon name="home"></ion-icon>
-        <ion-label>Inicio</ion-label>
-      </ion-tab-button>
-      <ion-tab-button tab="informes" routerLink="/informes">
-        <ion-icon name="bar-chart-outline"></ion-icon>
-        <ion-label>Informes</ion-label>
-      </ion-tab-button>
-    </ion-tab-bar>
-  </ion-footer>
+
+<!-- Barra inferior para moverse entre Inicio e Informes -->
+<ion-footer>
+  <ion-tab-bar selectedTab="informes">
+    <ion-tab-button tab="inicio" routerLink="/home">
+      <ion-icon name="home"></ion-icon>
+      <ion-label>Inicio</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="informes" routerLink="/informes">
+      <ion-icon name="bar-chart-outline"></ion-icon>
+      <ion-label>Informes</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-footer>
