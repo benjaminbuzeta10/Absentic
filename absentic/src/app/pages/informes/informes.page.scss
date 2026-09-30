@@ -304,3 +304,10 @@ ion-item {
     }
   }
 }
+
+// Barra inferior: blanca, igual que en el home
+ion-tab-bar {
+  --background: #ffffff;
+  --color: #9ca3af;
+  --color-selected: #{$azul};
+}

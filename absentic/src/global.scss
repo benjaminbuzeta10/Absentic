@@ -34,4 +34,6 @@
 
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import '@ionic/angular/css/palettes/dark.system.css';
+// Desactivado: la app esta disenada en modo claro. Con esto activo,
+// si el computador o celular esta en modo oscuro, partes de la app se ponian negras.
+// @import '@ionic/angular/css/palettes/dark.system.css';

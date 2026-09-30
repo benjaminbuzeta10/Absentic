@@ -1,11 +1,13 @@
 import { Component, computed, inject, signal } from '@angular/core';
+// RouterLink es necesario para que funcione routerLink en el HTML
+import { RouterLink } from '@angular/router';
 import {
   IonHeader, IonToolbar, IonContent, IonCard, IonList, IonItem,
   IonLabel, IonNote, IonIcon, IonProgressBar, IonSpinner, ViewWillEnter,
   IonTabButton, IonTabBar,  IonFooter
 } from '@ionic/angular';
 import { addIcons } from 'ionicons';
-import { checkmark, warning } from 'ionicons/icons';
+import { checkmark, warning, home, barChartOutline } from 'ionicons/icons';
 import { Ramo } from '../../../models/ramo.model';
 import { RamosService } from '../../../services/ramos.service';
 
@@ -17,6 +19,7 @@ const RADIO = 36;
   templateUrl: './informes.page.html',
   styleUrls: ['./informes.page.scss'],
   imports: [
+    RouterLink,
     IonHeader, IonToolbar, IonContent, IonCard, IonList, IonItem,
     IonLabel, IonNote, IonIcon, IonProgressBar, IonSpinner, IonTabButton, IonTabBar, IonFooter
   ],
@@ -51,7 +54,9 @@ export class InformesPage implements ViewWillEnter {
   trazo = computed(() => `${(this.promedio() / 100) * this.circunferencia} ${this.circunferencia}`);
 
   constructor() {
-    addIcons({ checkmark, warning });
+    // Registramos todos los iconos que usa esta pagina, incluidos los de la barra inferior.
+    // Si falta alguno, el icono no se dibuja (queda en blanco).
+    addIcons({ checkmark, warning, home, barChartOutline });
   }
 
   async ionViewWillEnter() {
