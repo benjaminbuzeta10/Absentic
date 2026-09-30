@@ -1,28 +1,32 @@
 // Colores del mockup de Figma (Mobile Attendance Tracker App).
-$azul: #1a3b5c;
-$verde: #4caf50;
-$verde-suave: #e8f5e9;
-$verde-oscuro: #2e7d32;
-$rojo: #f44336;
-$rojo-suave: #ffebee;
-$rojo-oscuro: #c62828;
-$gris: #9e9e9e;
-$texto: #333;
-$fondo: #f5f7fa;
-$linea: #e8ecf0;
+$azul: #1a3b5c;          // Encabezado, barra inferior y marca del minimo
+$verde: #4caf50;         // Ramos al dia
+$verde-suave: #e8f5e9;   // Fondo del contador "Al dia"
+$verde-oscuro: #2e7d32;  // Icono de check en la lista
+$rojo: #f44336;          // Ramos en riesgo
+$rojo-suave: #ffebee;    // Fondo del contador "En riesgo"
+$rojo-oscuro: #c62828;   // Icono de advertencia en la lista
+$gris: #9e9e9e;          // Textos secundarios
+$texto: #333;            // Texto principal
+$fondo: #f5f7fa;         // Fondo de la pagina y de las barras
+$linea: #e8ecf0;         // Fondo del anillo
 
+// Fuente de toda la pagina
 :host {
   --ion-font-family: 'Inter', sans-serif;
 }
 
+// Barra superior azul sin borde
 ion-toolbar {
   --background: #{$azul};
   --border-width: 0;
 }
 
+// Textos del encabezado (semestre y titulo)
 .encabezado {
   padding: 14px 20px 18px;
 
+  // "Semestre 2026-1"
   p {
     margin: 0;
     color: rgba(255, 255, 255, 0.55);
@@ -30,6 +34,7 @@ ion-toolbar {
     font-weight: 500;
   }
 
+  // "Resumen General"
   h1 {
     margin: 2px 0 0;
     color: #fff;
@@ -38,18 +43,21 @@ ion-toolbar {
   }
 }
 
+// Fondo y espacios del contenido
 ion-content {
   --background: #{$fondo};
   --padding-top: 14px;
   --padding-bottom: 8px;
 }
 
+// Contenedor del spinner, centrado
 .cargando {
   display: flex;
   justify-content: center;
   padding-top: 48px;
 }
 
+// Tarjetas blancas con bordes redondeados
 ion-card {
   margin: 0 16px 12px;
   padding: 16px;
@@ -58,6 +66,7 @@ ion-card {
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07);
 }
 
+// Titulo chico en mayusculas de cada tarjeta
 .titulo-tarjeta {
   margin: 0 0 14px;
   color: $gris;
@@ -67,36 +76,49 @@ ion-card {
   letter-spacing: 0.06em;
 }
 
+// Texto cuando no hay ramos
 .vacio {
   margin: 0;
   color: $gris;
   font-size: 13px;
 }
 
+// Texto del mensaje de error (mismo estilo que .vacio, pero en rojo)
+.error {
+  color: $rojo;
+}
+
+// Pinta de rojo cualquier elemento en riesgo
 .riesgo {
   color: $rojo !important;
 }
 
-// Promedio de asistencia
+// ---------- Tarjeta 1: Promedio de asistencia ----------
+
+// Anillo a la izquierda y contadores a la derecha
 .promedio {
   display: flex;
   align-items: center;
   gap: 16px;
 }
 
+// Anillo del promedio
 .anillo {
   position: relative;
   flex-shrink: 0;
 
+  // Los dos circulos: solo borde, sin relleno
   circle {
     fill: none;
     stroke-width: 9;
   }
 
+  // Circulo gris de fondo
   .anillo-fondo {
     stroke: $linea;
   }
 
+  // Circulo pintado segun el promedio (verde, o rojo si esta en riesgo)
   .anillo-valor {
     stroke: $verde;
     stroke-linecap: round;
@@ -106,6 +128,7 @@ ion-card {
     }
   }
 
+  // Numero del promedio centrado sobre el anillo
   span {
     position: absolute;
     inset: 0;
@@ -118,15 +141,18 @@ ion-card {
   }
 }
 
+// Columna de contadores
 .contadores {
   flex: 1;
 
+  // Contadores "Al dia" y "En riesgo" uno al lado del otro
   .chips {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
   }
 
+  // Texto "X ramos · Y bloques horarios"
   .detalle {
     margin: 10px 0 0;
     color: $gris;
@@ -135,48 +161,58 @@ ion-card {
   }
 }
 
+// Cada contador (numero grande y texto chico)
 .contador {
   padding: 8px 14px;
   border-radius: 10px;
   text-align: center;
 
+  // Numero
   strong {
     display: block;
     font-size: 20px;
     font-weight: 800;
   }
 
+  // Texto
   span {
     font-size: 10px;
     font-weight: 600;
   }
 
+  // Colores del contador "Al dia"
   &.al-dia {
     background: $verde-suave;
     color: $verde;
   }
 
+  // Colores del contador "En riesgo"
   &.en-riesgo {
     background: $rojo-suave;
     color: $rojo;
   }
 }
 
-// Comparativa de ramos
+// ---------- Tarjeta 2: Comparativa de ramos ----------
+
+// Espacio entre un ramo y el siguiente
 .comparativa + .comparativa {
   margin-top: 12px;
 }
 
+// Fila con el nombre a la izquierda y el porcentaje a la derecha
 .fila {
   display: flex;
   justify-content: space-between;
   margin-bottom: 5px;
 
+  // Nombre del ramo
   .nombre {
     color: $texto;
     font-size: 13px;
     font-weight: 600;
 
+    // Cantidad de bloques junto al nombre
     small {
       margin-left: 6px;
       color: $gris;
@@ -185,6 +221,7 @@ ion-card {
     }
   }
 
+  // Porcentaje del ramo
   .porcentaje {
     color: $verde;
     font-size: 13px;
@@ -192,6 +229,7 @@ ion-card {
   }
 }
 
+// Barra de progreso de cada ramo
 .barra {
   position: relative;
 
@@ -201,13 +239,14 @@ ion-card {
     --background: #{$fondo};
     --progress-background: #{$verde};
 
+    // Barra roja si el ramo esta en riesgo
     &.riesgo {
       --progress-background: #{$rojo};
     }
   }
 }
 
-// Marca del mínimo exigido, sobre la barra y en la leyenda.
+// Marca del minimo exigido, sobre la barra y en la leyenda
 .minimo {
   width: 2px;
   height: 10px;
@@ -216,21 +255,25 @@ ion-card {
   opacity: 0.35;
 }
 
+// Sobre la barra, la marca se ubica encima (su "left" viene del HTML)
 .barra .minimo {
   position: absolute;
   top: 0;
 }
 
+// Leyenda debajo de las barras
 .leyenda {
   display: flex;
   align-items: center;
   gap: 6px;
   margin-top: 10px;
 
+  // Marca un poco mas alta en la leyenda
   .minimo {
     height: 12px;
   }
 
+  // Texto de la leyenda
   span {
     color: $gris;
     font-size: 10px;
@@ -238,7 +281,9 @@ ion-card {
   }
 }
 
-// Estado por ramo
+// ---------- Tarjeta 3: Estado por ramo ----------
+
+// La tarjeta que tiene la lista usa menos espacio arriba y abajo
 ion-card:has(ion-list) {
   padding: 14px 16px;
 
@@ -247,11 +292,13 @@ ion-card:has(ion-list) {
   }
 }
 
+// Lista sin fondo ni espacios extra
 ion-list {
   padding: 0;
   background: transparent;
 }
 
+// Cada ramo de la lista
 ion-item {
   --background: transparent;
   --padding-start: 0;
@@ -259,6 +306,7 @@ ion-item {
   --border-color: #{$fondo};
   --min-height: 0;
 
+  // Icono de check o de advertencia
   ion-icon {
     margin: 0 10px 0 0;
     font-size: 16px;
@@ -269,15 +317,18 @@ ion-item {
     }
   }
 
+  // Nombre y detalle del ramo
   ion-label {
     margin: 10px 0;
 
+    // Nombre
     h2 {
       color: $texto;
       font-size: 14px;
       font-weight: 600;
     }
 
+    // "Min. 75% · N bloques · N clases"
     p {
       margin-top: 2px;
       color: $gris;
@@ -285,6 +336,7 @@ ion-item {
     }
   }
 
+  // Porcentaje y estado a la derecha
   ion-note {
     display: flex;
     flex-direction: column;
@@ -292,11 +344,13 @@ ion-item {
     margin: 0;
     color: $verde;
 
+    // Porcentaje
     strong {
       font-size: 15px;
       font-weight: 800;
     }
 
+    // "Aprobado" o "En riesgo"
     span {
       margin-top: 1px;
       font-size: 10px;
