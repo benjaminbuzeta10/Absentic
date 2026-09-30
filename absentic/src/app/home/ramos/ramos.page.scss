@@ -1,0 +1,280 @@
+// Mismos colores que el resto de la app
+$azul: #1f3a5f;
+$verde: #43a047;
+$rojo: #e53935;
+$naranjo: #fb8c00;
+
+// ---------- Encabezado ----------
+.encabezado {
+  --background: #{$azul};
+  --color: #ffffff;
+  padding: 8px;
+}
+
+ion-title {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+// Botones cuadrados con fondo semitransparente (volver y lapiz)
+.boton-cuadrado {
+  --color: #ffffff;
+  --background: rgba(255, 255, 255, 0.15);
+  --border-radius: 10px;
+  width: 40px;
+  height: 40px;
+}
+
+// ---------- Generales ----------
+ion-content {
+  --background: #f3f5f8;
+}
+
+.mensaje {
+  text-align: center;
+  color: #6b7280;
+}
+
+.tarjeta {
+  background: #ffffff;
+  margin: 12px 14px;
+  padding: 16px;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+// Fila con un elemento a la izquierda y otro a la derecha
+.fila {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.texto-gris {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.texto-gris strong {
+  color: #1f2937;
+}
+
+.barra {
+  height: 7px;
+  border-radius: 4px;
+  margin: 8px 0;
+  --background: #e5e7eb;
+}
+
+.rojo {
+  color: #{$rojo} !important;
+}
+
+// ---------- Resumen ----------
+.resumen-arriba {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #eef0f3;
+}
+
+// Circulo: el fondo es el degradado conico y el centro es un circulo blanco encima
+.anillo {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.anillo-centro {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 800;
+  color: #{$verde};
+}
+
+.resumen-datos {
+  flex: 1;
+}
+
+.dato-titulo {
+  font-size: 11px;
+  font-weight: 700;
+  color: #8a94a6;
+}
+
+.dato-valor {
+  font-size: 18px;
+  font-weight: 800;
+  color: #1f2937;
+}
+
+// Tres cajitas de colores
+.contadores {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.contador {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 0;
+  border-radius: 10px;
+  font-size: 11px;
+}
+
+.contador strong {
+  font-size: 20px;
+}
+
+.contador.verde {
+  background: #e8f5e9;
+  color: #{$verde};
+}
+
+.contador.rojo {
+  background: #fdecea;
+  color: #{$rojo};
+}
+
+.contador.naranjo {
+  background: #fff3e0;
+  color: #{$naranjo};
+}
+
+// ---------- Tarjetas de bloque ----------
+.tarjeta-bloque {
+  padding: 12px;
+}
+
+.bloque-arriba {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+// Cuadro azul con dia y horas
+.cuadro-dia {
+  width: 52px;
+  padding: 8px 0;
+  border-radius: 8px;
+  background: #{$azul};
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.cuadro-dia-nombre {
+  font-size: 10px;
+  opacity: 0.8;
+}
+
+.cuadro-dia strong {
+  font-size: 13px;
+}
+
+.cuadro-dia-fin {
+  font-size: 10px;
+  opacity: 0.7;
+}
+
+.bloque-datos {
+  flex: 1;
+}
+
+.bloque-titulo {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.bloque-porcentaje {
+  font-size: 15px;
+  font-weight: 800;
+  color: #{$verde};
+}
+
+.boton-ver {
+  margin: 0;
+  height: 22px;
+  font-size: 12px;
+  text-transform: none;
+  --padding-start: 0;
+  --padding-end: 0;
+}
+
+// ---------- Registro de clases ----------
+.clase {
+  padding: 12px 4px;
+  border-top: 1px solid #eef0f3;
+}
+
+.clase-fecha {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.clase-numero {
+  margin: 2px 0 0;
+}
+
+// Botones de estado: grises por defecto
+.estados {
+  display: flex;
+  gap: 4px;
+}
+
+.boton-estado {
+  margin: 0;
+  height: 28px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: none;
+  --background: #eef0f3;
+  --color: #9ca3af;
+  --box-shadow: none;
+  --border-radius: 14px;
+  --padding-start: 8px;
+  --padding-end: 8px;
+}
+
+// Boton elegido: se pinta del color de su estado
+.boton-estado.presente {
+  --background: #e8f5e9;
+  --color: #{$verde};
+}
+
+.boton-estado.ausente {
+  --background: #fdecea;
+  --color: #{$rojo};
+}
+
+.boton-estado.nulo {
+  --background: #fff3e0;
+  --color: #{$naranjo};
+};
+
+
+// ---------- Barra inferior ----------
+ion-tab-bar {
+  --background: #ffffff;
+  --color: #9ca3af;
+  --color-selected: #{$azul};
+}

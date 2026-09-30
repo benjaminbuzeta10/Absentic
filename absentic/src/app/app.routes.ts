@@ -14,4 +14,8 @@ export const routes: Routes = [
     path: 'agregar',
     loadComponent: () => import('./home/agregar/agregar.page').then( m => m.AgregarPage)
   },
+  {
+    path: 'editar',
+    loadComponent: () => import('./home/ramos/editar/editar.page').then( m => m.EditarPage)
+  },
 ];

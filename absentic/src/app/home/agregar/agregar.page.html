@@ -1,120 +1,136 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
+<!-- Encabezado azul con boton para volver -->
+<ion-header class="ion-no-border">
+  <ion-toolbar class="encabezado">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/home"></ion-back-button>
+      <ion-back-button class="boton-volver" defaultHref="/home" text="" icon="arrow-back"></ion-back-button>
     </ion-buttons>
-    <ion-title>Agregar ramo</ion-title>
+    <ion-title>Nuevo Ramo</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <main class="formulario-agregar">
-    <section class="seccion-formulario">
-      <h2>Datos del ramo</h2>
-      <ion-input
-        label="Nombre del ramo"
-        label-placement="stacked"
-        fill="outline"
-        placeholder="Ej. Matemáticas"
-      ></ion-input>
-      <ion-input
-        class="asistencia-input"
-        label="Asistencia mínima"
-        label-placement="stacked"
-        fill="outline"
-        type="number"
-        min="0"
-        max="100"
-        value="75"
-        helper-text="Porcentaje requerido para aprobar"
-      ></ion-input>
-    </section>
+<ion-content>
 
-    <section class="seccion-formulario">
-      <h2>Fechas del semestre</h2>
-      <div class="fechas-semestre">
-        <div class="selector-fecha">
-          <span>Inicio</span>
-          <ion-datetime-button datetime="fecha-inicio"></ion-datetime-button>
-          <ion-modal [keepContentsMounted]="true">
-            <ng-template>
-              <ion-datetime
-                id="fecha-inicio"
-                presentation="date"
-                [showDefaultButtons]="true"
-              ></ion-datetime>
-            </ng-template>
-          </ion-modal>
-        </div>
-        <div class="selector-fecha">
-          <span>Término</span>
-          <ion-datetime-button datetime="fecha-termino"></ion-datetime-button>
-          <ion-modal [keepContentsMounted]="true">
-            <ng-template>
-              <ion-datetime
-                id="fecha-termino"
-                presentation="date"
-                [showDefaultButtons]="true"
-              ></ion-datetime>
-            </ng-template>
-          </ion-modal>
-        </div>
+  <!-- ===== Tarjeta 1: informacion del ramo ===== -->
+  <div class="tarjeta">
+    <p class="titulo-seccion">INFORMACION</p>
+
+    <p class="etiqueta">Nombre del ramo *</p>
+    <ion-input fill="outline" placeholder="Ej: Matematicas" aria-label="Nombre del ramo"
+      [(ngModel)]="nombre"></ion-input>
+
+    <p class="etiqueta">Asistencia minima (%) *</p>
+    <ion-input fill="outline" type="number" min="0" max="100" aria-label="Asistencia minima"
+      [(ngModel)]="asistenciaMinima">
+      <span slot="end" class="sufijo">%</span>
+    </ion-input>
+  </div>
+
+  <!-- ===== Tarjeta 2: fechas del semestre ===== -->
+  <div class="tarjeta">
+    <p class="titulo-seccion">PERIODO DEL SEMESTRE</p>
+
+    <div class="dos-columnas">
+      <div>
+        <p class="etiqueta">Inicio *</p>
+        <!-- Input nativo del navegador: abre el calendario al hacer clic -->
+        <input class="campo-nativo" type="date" aria-label="Fecha de inicio"
+          [(ngModel)]="fechaInicio" />
       </div>
-    </section>
-
-    <section class="seccion-formulario">
-      <div class="encabezado-seccion">
-        <h2>Bloques de horario</h2>
-        <ion-button type="button" fill="outline" size="small" (click)="agregarBloque()">
-          <ion-icon name="add-outline" slot="start" aria-hidden="true"></ion-icon>
-          Agregar
-        </ion-button>
+      <div>
+        <p class="etiqueta">Termino *</p>
+        <input class="campo-nativo" type="date" aria-label="Fecha de termino"
+          [(ngModel)]="fechaTermino" />
       </div>
-
-      @for (bloque of bloques; track $index) {
-        <div class="bloque-horario">
-          <div class="encabezado-bloque">
-            <h3>Bloque {{ $index + 1 }}</h3>
-          </div>
-          <div class="dias-botones" role="group" [attr.aria-label]="'Día del bloque ' + ($index + 1)">
-            @for (dia of dias; track dia) {
-              <ion-button
-                class="boton-dia"
-                type="button"
-                size="small"
-                [fill]="bloque.dia === dia ? 'solid' : 'outline'"
-                [attr.aria-pressed]="bloque.dia === dia"
-                (click)="seleccionarDia(bloque, dia)"
-              >
-                {{ dia }}
-              </ion-button>
-            }
-          </div>
-          <div class="horas-bloque">
-            <ion-input
-              label="Inicio"
-              label-placement="stacked"
-              fill="outline"
-              type="time"
-              [(ngModel)]="bloque.inicio"
-              [ngModelOptions]="{ standalone: true }"
-            ></ion-input>
-            <ion-input
-              label="Término"
-              label-placement="stacked"
-              fill="outline"
-              type="time"
-              [(ngModel)]="bloque.termino"
-              [ngModelOptions]="{ standalone: true }"
-            ></ion-input>
-          </div>
-        </div>
-      }
-    </section>
-
-    <div class="acciones-formulario">
-      <ion-button type="button" fill="clear" color="medium">Cancelar</ion-button>
-      <ion-button type="button">Guardar ramo</ion-button>
     </div>
-  </main>
+  </div>
+
+  <!-- ===== Tarjeta 3: bloques de horario ===== -->
+  <div class="tarjeta">
+    <div class="fila">
+      <p class="titulo-seccion">BLOQUES DE HORARIO</p>
+      <ion-button class="boton-agregar-bloque" size="small" (click)="agregarBloque()">
+        <ion-icon name="add" slot="start"></ion-icon>
+        Agregar
+      </ion-button>
+    </div>
+
+    <!-- Un recuadro por cada bloque -->
+    @for (bloque of bloques; track $index) {
+      <div class="bloque">
+        <div class="fila">
+          <span class="insignia">Bloque {{ $index + 1 }}</span>
+          <!-- Boton para quitar el bloque (solo si hay mas de uno) -->
+          @if (bloques.length > 1) {
+            <ion-button fill="clear" color="medium" size="small" (click)="quitarBloque($index)">
+              <ion-icon name="trash-outline"></ion-icon>
+            </ion-button>
+          }
+        </div>
+
+        <!-- Botones de dia: el elegido se pinta azul -->
+        <p class="etiqueta">Dia</p>
+        <div class="dias">
+          @for (dia of dias; track dia.nombre) {
+            <ion-button size="small" class="boton-dia"
+              [class.dia-activo]="bloque.dia === dia.nombre"
+              (click)="bloque.dia = dia.nombre">
+              {{ dia.corto }}
+            </ion-button>
+          }
+        </div>
+
+        <!-- Hora de inicio y termino -->
+        <div class="dos-columnas con-flecha">
+          <div>
+            <p class="etiqueta">Inicio</p>
+            <!-- Input nativo del navegador para elegir la hora -->
+            <input class="campo-nativo" type="time" aria-label="Hora de inicio"
+              [(ngModel)]="bloque.inicio" />
+          </div>
+          <ion-icon name="arrow-forward" class="flecha"></ion-icon>
+          <div>
+            <p class="etiqueta">Termino</p>
+            <input class="campo-nativo" type="time" aria-label="Hora de termino"
+              [(ngModel)]="bloque.termino" />
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- Resumen de clases del semestre -->
+    <div class="fila total">
+      <div>
+        <p class="total-titulo">Clases totales estimadas</p>
+        <p class="total-subtitulo">Suma de todos los bloques</p>
+      </div>
+      <span class="total-numero">{{ clasesTotales() || '—' }}</span>
+    </div>
+  </div>
+
+  <!-- Mensaje de error, si hubo alguno al guardar -->
+  @if (error()) {
+    <p class="error">{{ error() }}</p>
+  }
+
+  <!-- Botones finales -->
+  <div class="acciones">
+    <ion-button class="boton-cancelar" fill="outline" (click)="cancelar()">Cancelar</ion-button>
+    <ion-button class="boton-guardar" [disabled]="!formularioValido() || guardando()" (click)="guardar()">
+      {{ guardando() ? 'Guardando...' : 'Guardar ramo' }}
+    </ion-button>
+  </div>
 </ion-content>
+
+<!-- Barra de navegacion inferior (igual que en el home) -->
+<ion-footer>
+  <ion-tab-bar selectedTab="inicio">
+    <ion-tab-button tab="inicio" routerLink="/home">
+      <ion-icon name="home"></ion-icon>
+      <ion-label>Inicio</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="informes">
+      <ion-icon name="bar-chart-outline"></ion-icon>
+      <ion-label>Informes</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-footer>

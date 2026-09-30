@@ -1,73 +1,130 @@
+// Color azul oscuro principal de la app
+$azul: #1f3a5f;
+
+// ---------- Encabezado ----------
+.encabezado {
+  --background: #{$azul};
+  --color: #ffffff;
+  padding: 8px 16px 16px;
+}
+
+.semestre {
+  margin: 8px 0 4px;
+  font-size: 13px;
+  opacity: 0.7;
+}
+
+.titulo {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+// ---------- Fondo de la pagina ----------
 ion-content {
-  --background: #fff;
-  --color: #202622;
+  --background: #f3f5f8;
 }
 
-ion-list {
-  padding: 16px 16px 96px;
-  background: #fff;
+.mensaje {
+  text-align: center;
+  color: #6b7280;
 }
 
-.ramo-item {
-  --background: #fff;
-  --padding-start: 16px;
-  --padding-end: 16px;
-  --padding-top: 12px;
-  --padding-bottom: 12px;
-  --inner-padding-end: 0;
-  margin: 0 0 12px;
+// ---------- Tarjetas ----------
+.tarjeta {
+  cursor: pointer;
+  --background: #ffffff;
+  margin: 12px 14px;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
-.ramo-item::part(native) {
-  border: 1px solid #d8dfdb;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgb(32 38 34 / 6%);
-}
-
-.ramo-titulo {
-  margin: 0 0 8px;
-  font-size: 18px;
-  font-weight: 600;
-  color: #202622;
-}
-
-.dias-bloques {
+// Fila con un elemento a la izquierda y otro a la derecha
+.fila {
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px 16px;
-  color: var(--ion-color-medium);
-  font-size: 14px;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.asistencia-resumen {
+.nombre {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.porcentaje {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-top: 14px;
-  padding-top: 10px;
-  border-top: 1px solid #e7ebe9;
+  font-size: 22px;
+  font-weight: 800;
+  color: #43a047; // verde
 }
 
-.asistencia-actual {
-  display: grid;
-  gap: 3px;
+// Si esta en riesgo, el porcentaje se pinta rojo
+.porcentaje.en-riesgo {
+  color: #e53935;
+}
+
+.flecha {
+  font-size: 14px;
+  margin-left: 6px;
+  color: #9ca3af;
+}
+
+// Chips pequeños con el dia de clase
+.chip-dia {
+  --background: #e8eef7;
+  --color: #{$azul};
+  height: 22px;
+  margin: 6px 6px 0 0;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+// Barra de progreso mas gruesa y redondeada
+.barra {
+  height: 7px;
+  border-radius: 4px;
+  margin: 10px 0;
+  --background: #e5e7eb;
+}
+
+.faltas {
   font-size: 13px;
+  color: #6b7280;
 }
 
-.asistencia-actual strong {
-  font-size: 16px;
+.faltas strong {
+  color: #1f2937;
 }
 
-.asistencia-minima {
-  color: #58615c;
-  font-size: 13px;
+// Etiqueta de estado ("Al dia" o "En riesgo")
+.estado {
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 600;
 }
 
-.cumple-minimo {
-  color: #187a45;
+.al-dia {
+  --background: #e6f4ea;
+  --color: #2e7d32;
 }
 
-.bajo-minimo {
-  color: #c33d37;
+.riesgo {
+  --background: #fdecea;
+  --color: #c62828;
+}
+
+// ---------- Boton flotante ----------
+.boton-agregar {
+  --background: #{$azul};
+}
+
+// ---------- Barra inferior ----------
+ion-tab-bar {
+  --background: #ffffff;
+  --color: #9ca3af;
+  --color-selected: #{$azul};
 }
