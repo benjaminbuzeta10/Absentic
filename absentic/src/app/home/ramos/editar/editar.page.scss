@@ -1,0 +1,244 @@
+// Mismo azul oscuro que el home
+$azul: #1f3a5f;
+
+// ---------- Encabezado ----------
+.encabezado {
+  --background: #{$azul};
+  --color: #ffffff;
+  padding: 8px 8px;
+}
+
+ion-title {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+// Boton de volver: cuadrado con fondo semitransparente
+.boton-volver {
+  --color: #ffffff;
+  --background: rgba(255, 255, 255, 0.15);
+  --border-radius: 10px;
+  width: 40px;
+  height: 40px;
+}
+
+// ---------- Fondo ----------
+ion-content {
+  --background: #f3f5f8;
+}
+
+// ---------- Tarjetas blancas ----------
+.tarjeta {
+  background: #ffffff;
+  margin: 12px 14px;
+  padding: 16px;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.titulo-seccion {
+  margin: 0 0 10px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: #8a94a6;
+}
+
+// Texto encima de cada campo
+.etiqueta {
+  margin: 12px 0 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+// Campos de texto con borde redondeado
+ion-input {
+  --border-radius: 10px;
+  --border-color: #d9dee7;
+  --background: #ffffff;
+  --color: #1f2937;
+}
+
+// Inputs nativos de fecha y hora, con el mismo estilo que los ion-input
+.campo-nativo {
+  width: 100%;
+  height: 48px;
+  padding: 0 10px;
+  border: 1px solid #d9dee7;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #1f2937;
+  font-size: 15px;
+  font-family: inherit;
+  color-scheme: light; // Para que el calendario y el reloj se vean claros
+}
+
+// Borde azul cuando el campo esta seleccionado
+.campo-nativo:focus {
+  outline: none;
+  border-color: #1f3a5f;
+}
+
+.sufijo {
+  color: #8a94a6;
+}
+
+// Dos elementos lado a lado
+.dos-columnas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+// Variante con una flecha al medio (horas de inicio y termino)
+.con-flecha {
+  grid-template-columns: 1fr auto 1fr;
+  align-items: end;
+}
+
+.flecha {
+  margin-bottom: 18px;
+  color: #8fb3e0;
+}
+
+// Fila con un elemento a la izquierda y otro a la derecha
+.fila {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+// ---------- Bloques de horario ----------
+.boton-agregar-bloque {
+  --background: #eef2f7;
+  --color: #{$azul};
+  --box-shadow: none;
+  --border-radius: 8px;
+  font-weight: 600;
+  text-transform: none;
+}
+
+.bloque {
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px solid #e5e9f0;
+  border-radius: 12px;
+  background: #f8fafc;
+}
+
+// Etiqueta azul "Bloque 1"
+.insignia {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: #{$azul};
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.dias {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+// Botones de dia (blancos por defecto)
+.boton-dia {
+  --background: #ffffff;
+  --color: #1f2937;
+  --border-radius: 8px;
+  --box-shadow: none;
+  --padding-start: 12px;
+  --padding-end: 12px;
+  border: 1px solid #d9dee7;
+  border-radius: 8px;
+  text-transform: none;
+  margin: 0;
+}
+
+// Dia elegido: azul
+.boton-dia.dia-activo {
+  --background: #{$azul};
+  --color: #ffffff;
+  border-color: #{$azul};
+}
+
+// ---------- Total de clases ----------
+.total {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid #e5e9f0;
+}
+
+.total-titulo {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.total-subtitulo {
+  margin: 2px 0 0;
+  font-size: 12px;
+  color: #8a94a6;
+}
+
+.total-numero {
+  min-width: 44px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: #eef2f7;
+  color: #{$azul};
+  font-size: 20px;
+  font-weight: 800;
+  text-align: center;
+}
+
+// ---------- Error y botones finales ----------
+.error {
+  margin: 0 14px;
+  color: #c62828;
+  font-size: 13px;
+  text-align: center;
+}
+
+.acciones {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 10px;
+  margin: 12px 14px 24px;
+}
+
+.acciones ion-button {
+  height: 44px;
+  margin: 0;
+  text-transform: none;
+  font-weight: 700;
+  --border-radius: 12px;
+  --box-shadow: none;
+}
+
+.boton-cancelar {
+  --border-color: #d9dee7;
+  --color: #8a94a6;
+  --background: #ffffff;
+}
+
+.boton-guardar {
+  --background: #{$azul};
+}
+
+// ---------- Barra inferior ----------
+ion-tab-bar {
+  --background: #ffffff;
+  --color: #9ca3af;
+  --color-selected: #{$azul};
+}
+
+// Aviso mientras se cargan los datos
+.mensaje {
+  text-align: center;
+  color: #6b7280;
+}

@@ -2,6 +2,7 @@ import { Component, computed, inject, signal } from '@angular/core';
 import {
   IonHeader, IonToolbar, IonContent, IonCard, IonList, IonItem,
   IonLabel, IonNote, IonIcon, IonProgressBar, IonSpinner, ViewWillEnter,
+  IonTabButton, IonTabBar,  IonFooter
 } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { checkmark, warning } from 'ionicons/icons';
@@ -17,7 +18,7 @@ const RADIO = 36;
   styleUrls: ['./informes.page.scss'],
   imports: [
     IonHeader, IonToolbar, IonContent, IonCard, IonList, IonItem,
-    IonLabel, IonNote, IonIcon, IonProgressBar, IonSpinner,
+    IonLabel, IonNote, IonIcon, IonProgressBar, IonSpinner, IonTabButton, IonTabBar, IonFooter
   ],
 })
 export class InformesPage implements ViewWillEnter {
